@@ -1,6 +1,10 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+    defaults: { _controller: GameCoreBundle:Welcome:index }
+
+_initTerrain:
+    pattern:  /resources/terrain/
+    defaults: { _controller: GameCoreBundle:Resources:initTerrain }
 
 _demo_secured:
     resource: "@AcmeDemoBundle/Controller/SecuredController.php"
