@@ -1,0 +1,113 @@
+{% extends 'GameCoreBundle::layout.html.twig' %}
+{%  block title %}Gnomek test{% endblock %}
+
+{% block content %}
+<h1>Hello</h1>
+{% endblock %}
+
+{% block game %}
+    <script>
+    window.onload = function() {
+        var links = {
+            terrain: "{{ path('_initTerrain') }}"
+        };
+        game.init('game', 578, 200, links);
+/*
+        var stage = new Kinetic.Stage({
+            container: 'game',
+            width: 578,
+            height: 200
+        });
+        var layer = new Kinetic.Layer();
+
+	    var gnomeAnimations = {
+		    idle: [{
+			    x: 0,
+			    y: 0,
+			    width: 32,
+			    height: 32
+		    }],
+		    rightMine: [{
+			    x: 0,
+			    y: 0,
+			    width: 32,
+			    height: 32
+		    }, {
+			    x: 64,
+			    y: 0,
+			    width: 32,
+			    height: 32
+            }]
+	    }
+        var terrainAnimations = {
+            ground: [{
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32
+            }],
+            tonnel: [{
+                x: 0,
+                y: 32,
+                width: 32,
+                height: 32
+            }],
+            wall: [{
+                x: 32,
+                y: 0,
+                width: 32,
+                height: 32
+            }]
+        }
+        stage.add(layer);
+        var terrainObj = new Image();
+        terrainObj.onload = function() {
+            var terrain = new Kinetic.Sprite({
+                x: 250,
+                y: 40,
+                image: terrainObj,
+                animation: 'tonnel',
+                animations: terrainAnimations,
+                frameRate: 2
+            });
+
+            var terrain2 = new Kinetic.Sprite({
+                x: 282,
+                y: 40,
+                image: terrainObj,
+                animation: 'wall',
+                animations: terrainAnimations,
+                frameRate: 2
+            });
+            // add the shape to the layer
+            layer.add(terrain);
+            layer.add(terrain2);
+            // add the layer to the stage
+
+            terrain.start();
+            terrain2.start();
+
+        }
+        terrainObj.src = "{{ asset('bundles/gamecore/img/terrain.png') }}";
+        var imageObj = new Image();
+        imageObj.onload = function() {
+            var gnome = new Kinetic.Sprite({
+                x: 258,
+                y: 40,
+                image: imageObj,
+                animation: 'rightMine',
+                animations: gnomeAnimations,
+                frameRate: 2
+            });
+            // add the shape to the layer
+            layer.add(gnome);
+
+            // add the layer to the stage
+            stage.add(layer);
+            gnome.start();
+        }
+        imageObj.src = "{{ asset('bundles/gamecore/img/gnomek.png') }}";
+*/
+    };
+    </script>
+{% endblock %}
