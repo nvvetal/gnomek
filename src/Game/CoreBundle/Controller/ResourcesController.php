@@ -71,6 +71,16 @@ class ResourcesController extends Controller
 
     private function _getGnomek()
     {
+        $rightMine = array();
+        for($i = 0; $i < 7; $i++){
+            $rightMine[] = array(
+                'x'     => $i * 32,
+                'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
         $animations = array(
             'idle' => array(
                 array(
@@ -80,27 +90,14 @@ class ResourcesController extends Controller
 			        'height'=> 32,
                 ),
             ),
-            'rightMine' => array(
-                array(
-                    'x'     => 0,
-                    'y'     => 0,
-                    'width' => 32,
-                    'height'=> 32,
-                ),
-                array(
-                    'x'     => 64,
-                    'y'     => 0,
-                    'width' => 32,
-                    'height'=> 32,
-                ),
-            ),
+            'rightMine' => $rightMine,
         );
 
         $gnomek = array(
             'x'         => 10,
             'y'         => 2,
             'animation' => 'rightMine',
-            'frameRate' => 2,
+            'frameRate' => 3,
         );
 
         $data = array(

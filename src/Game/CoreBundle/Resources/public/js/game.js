@@ -20,13 +20,13 @@ var game = {
         game._height        = height;
         game._sprites       = new Array();
         game._animations    = new Array();
-        //25 x 12 (800 x 324)
-        for(var i = 0; i < 25; i++)
+        //32 x 25 (1024 x 800)
+        for(var i = 0; i < 32; i++)
         {
             game._sprites[i] = new Array();
-            for(var k = 0; k < 12; k++)
+            for(var k = 0; k < 25; k++)
             {
-                game._sprites[i][k] = new Array();
+                game._sprites[i][k] = jQuery.parseJSON('{"items": {}}');
             }
         }
     },
@@ -60,7 +60,7 @@ var game = {
                 var k = game._sprites.length;
                 for(i = 0; i < game._resources.terrains.items.length; i++){
                     var itemData = jQuery.parseJSON('{"type":"terrain","collisionType":"wall", "animation": "'+game._resources.terrains.items[i].animation+'","frameRate": "'+game._resources.terrains.items[i].frameRate+'"}');
-                    game.setMapItem(game._resources.terrains.items[i].x, game._resources.terrains.items[i].y, 0, itemData);
+                    game.setMapItem(game._resources.terrains.items[i].x, game._resources.terrains.items[i].y, 'terrain', itemData);
                 }
                 game._resourcesLoaded++;
                 game._initProgress(1);
@@ -71,7 +71,7 @@ var game = {
             gnomekObj.onload = function() {
                 game._animObjects['gnomek'] = gnomekObj;
                 var itemData = jQuery.parseJSON('{"type":"gnomek","collisionType":"user", "animation": "'+game._resources.gnomek.gnomek.animation+'","frameRate": "'+game._resources.gnomek.gnomek.frameRate+'"}');
-                game.setMapItem(game._resources.gnomek.gnomek.x, game._resources.gnomek.gnomek.y, 1, itemData);
+                game.setMapItem(game._resources.gnomek.gnomek.x, game._resources.gnomek.gnomek.y, 'gnomek', itemData);
                 game._resourcesLoaded++;
                 game._initProgress(1);
             }
@@ -96,22 +96,23 @@ var game = {
             for (var k = 0; k < game._sprites[i].length; k++)
             {
                 if(game._sprites[i][k].length == 0) continue;
-                for(var j = 0; j < game._sprites[i][k].length; j++)
+                $.each(game._sprites[i][k].items, function(j, obj)
                 {
                     var imageName = 'terrainObj';
-                    if(game._sprites[i][k][j].getType() == 'gnomek') imageName = 'gnomekObj';
-                    var animations = game._animations[game._sprites[i][k][j].getType()];
+                    if(obj.getType() == 'gnomek') imageName = 'gnomekObj';
+                    var animations = game._animations[obj.getType()];
                     var sprite = new Kinetic.Sprite({
-                        x: i*32,
-                        y: k*32,
-                        image: game._animObjects[game._sprites[i][k][j].getType()],
-                        animation: game._sprites[i][k][j].getAnimation(),
+                        x: i * 32,
+                        y: k * 32,
+                        image: game._animObjects[obj.getType()],
+                        animation: obj.getAnimation(),
                         animations: animations,
-                        frameRate: game._sprites[i][k][j].getFrameRate()
+                        frameRate: obj.getFrameRate()
                     });
                     layer.add(sprite);
                     sprite.start();
-                }
+                });
+
             }
         }
         stage.add(layer);
@@ -124,15 +125,7 @@ var game = {
         spriteData.setType(itemData.type);
         spriteData.setAnimation(itemData.animation);
         spriteData.setFrameRate(itemData.frameRate);
-        game._sprites[x][y][itemType] = spriteData;
-        //console.log(game._sprites[x][y]);
+        game._sprites[x][y].items[itemType] = spriteData;
     }
 }
 
-function extend(Child, Parent) {
-    var F = function() { }
-    F.prototype = Parent.prototype
-    Child.prototype = new F()
-    Child.prototype.constructor = Child
-    Child.superclass = Parent.prototype
-}
