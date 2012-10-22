@@ -6,14 +6,19 @@ _initResources:
     pattern:  /resources/
     defaults: { _controller: GameCoreBundle:Resources:init }
 
-_demo_secured:
-    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
-    type:     annotation
+_do:
+    pattern:  /action/{action}
+    defaults: { _controller: GameCoreBundle:Do:index, action: ''}
 
-_demo:
-    resource: "@AcmeDemoBundle/Controller/DemoController.php"
-    type:     annotation
-    prefix:   /demo
+
+#_demo_secured:
+#    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
+#    type:     annotation
+
+#_demo:
+#    resource: "@AcmeDemoBundle/Controller/DemoController.php"
+#    type:     annotation
+#    prefix:   /demo
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
@@ -26,6 +31,7 @@ _profiler:
 _configurator:
     resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
+
 
 _main:
     resource: routing.yml

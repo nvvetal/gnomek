@@ -22,6 +22,12 @@ class ResourcesController extends Controller
 	private function _getTerrainData()
 	{
 		$terrains   = array();
+        $terrains[] = array(
+            'x'         => 9,
+            'y'         => 2,
+            'animation' => 'wall',
+            'frameRate' => 2,
+        );
 		$terrains[] = array(
 			'x'         => 10,
 			'y'         => 2,

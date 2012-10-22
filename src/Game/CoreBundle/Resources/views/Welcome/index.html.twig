@@ -9,9 +9,21 @@
     <script>
     window.onload = function() {
         var links = {
-            resources: "{{ path('_initResources') }}"
+            resources:  "{{ path('_initResources') }}",
+	        do:         "{{ path('_do') }}"
         };
-        game.init('game', 1024, 800, links);
+	    var gameCore = new game();
+	    gameCore.init('game', 1024, 800, links, gameCore);
+	    $(window).keypress(function(event) {
+		    //a or A - left
+		    if(event.keyCode == 97 || event.keyCode == 65){
+			    gameCore.tryAction('moveLeft');
+		    }
+		    if(event.keyCode == 100 || event.keyCode == 68){
+			    gameCore.tryAction('moveRight');
+		    }
+			console.log(event.keyCode);
+	    });
     };
     </script>
 {% endblock %}
