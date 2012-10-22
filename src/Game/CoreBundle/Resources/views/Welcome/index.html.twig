@@ -22,6 +22,14 @@
 		    if(event.keyCode == 100 || event.keyCode == 68){
 			    gameCore.tryAction('moveRight');
 		    }
+
+		    if(event.keyCode == 119 || event.keyCode == 87){
+			    gameCore.tryAction('moveTop');
+		    }
+		    if(event.keyCode == 115 || event.keyCode == 83){
+			    gameCore.tryAction('moveDown');
+		    }
+
 			console.log(event.keyCode);
 	    });
     };

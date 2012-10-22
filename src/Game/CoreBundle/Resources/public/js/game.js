@@ -15,7 +15,7 @@ function game (){
     this._sprites = null;
 
     this._maxX = 32;
-    this. _maxY = 25;
+    this._maxY = 25;
 
 
     this.init = function(container, width, height, links){
@@ -78,7 +78,7 @@ function game (){
                 self._animObjects['terrain'] = terrainObj;
                 var k = self._sprites.length;
                 for(i = 0; i < self._resources.terrains.items.length; i++){
-                    var itemData = jQuery.parseJSON('{"type":"terrain","collisionType":"wall", "animation": "'+self._resources.terrains.items[i].animation+'","frameRate": "'+self._resources.terrains.items[i].frameRate+'"}');
+                    var itemData = jQuery.parseJSON('{"type":"terrain","collisionType":"'+self._resources.terrains.items[i].collisionType+'", "animation": "'+self._resources.terrains.items[i].animation+'","frameRate": "'+self._resources.terrains.items[i].frameRate+'"}');
                     self.setMapItem(self._resources.terrains.items[i].x, self._resources.terrains.items[i].y, 'terrain', itemData);
                 }
                 self._resourcesLoaded++;
@@ -163,6 +163,40 @@ function game (){
             this.sendDo(action);
             return true;
         }
+
+        if(action == 'moveRight'){
+            var canMove = this.canMove(this._gnomek.getCoordX() + 1, this._gnomek.getCoordY());
+            console.log(canMove);
+            if(canMove == false){
+                console.log('Cannot do ' + action);
+                return false;
+            }
+            this.sendDo(action);
+            return true;
+        }
+
+        if(action == 'moveTop'){
+            var canMove = this.canMove(this._gnomek.getCoordX(), this._gnomek.getCoordY() - 1);
+            console.log(canMove);
+            if(canMove == false){
+                console.log('Cannot do ' + action);
+                return false;
+            }
+            this.sendDo(action);
+            return true;
+        }
+
+        if(action == 'moveDown'){
+            var canMove = this.canMove(this._gnomek.getCoordX(), this._gnomek.getCoordY() + 1);
+            console.log(canMove);
+            if(canMove == false){
+                console.log('Cannot do ' + action);
+                return false;
+            }
+            this.sendDo(action);
+            return true;
+        }
+
         console.log('action not matched');
         return false;
     }
@@ -184,12 +218,14 @@ function game (){
         if(x - 1 > this._maxX || y - 1 > this._maxY) return false;
 
         //checking walls or other players
+        var notIsWall = true;
         $.each(this._sprites[x][y].items, function(j, obj){
             if(obj.getCollisionType() == 'wall') {
-                console.log(obj.getCollisionType());
+                notIsWall = false;
                 return false;
             }
         });
+        if(!notIsWall) return false;
         return true;
     }
 
