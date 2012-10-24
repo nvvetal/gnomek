@@ -5,6 +5,8 @@ function gameSprite(){
 //none, wall, user - using for collisions
 gameSprite.prototype._collisionType = 'none';
 
+gameSprite.prototype._counter = 0;
+
 //none, terrain, gnomek
 gameSprite.prototype._type = 'none';
 
@@ -106,4 +108,15 @@ gameSprite.prototype.setSprite = function(sprite)
 gameSprite.prototype._switchAnimation = function()
 {
 
+}
+
+gameSprite.prototype.incCounter = function()
+{
+    this._counter++;
+    console.log(this.getType(), this._counter);
+}
+
+gameSprite.prototype.clearCounter = function()
+{
+    this._counter = 0;
 }
