@@ -1,72 +1,109 @@
 function gameSprite(){
-    //none, wall, user - using for collisions
-    this._collisionType = 'none';
-
-    //none, terrain, gnomek
-    this._type = 'none';
-
-    this._animation = '';
-    this._frameRate = 2;
-
-    this._coordX = null;
-    this._coordY = null;
-
-    this.getCollisionType = function()
-    {
-        return this._collisionType;
-    }
-
-    this.setCollisionType = function(collisionType)
-    {
-        this._collisionType = collisionType;
-    }
-
-    this.getType = function()
-    {
-        return this._type;
-    }
-
-    this.setType = function(type)
-    {
-        this._type = type;
-    }
-
-    this.getAnimation = function()
-    {
-        return this._animation;
-    }
-
-    this.setAnimation = function(animation)
-    {
-        this._animation = animation;
-    }
-
-    this.getFrameRate = function()
-    {
-        return this._frameRate;
-    }
-
-    this.setFrameRate = function(frameRate)
-    {
-        this._frameRate = frameRate;
-    }
-
-    this.setCoords = function(x, y)
-    {
-        this._coordX = x;
-        this._coordY = y;
-    }
-
-    this.getCoordX = function()
-    {
-        return this._coordX;
-    }
-
-    this.getCoordY = function()
-    {
-        return this._coordY;
-    }
 
 }
 
-gameSprite.prototype = {};
+//none, wall, user - using for collisions
+gameSprite.prototype._collisionType = 'none';
+
+//none, terrain, gnomek
+gameSprite.prototype._type = 'none';
+
+gameSprite.prototype._animation = '';
+gameSprite.prototype._frameRate = 2;
+
+gameSprite.prototype._coordX = null;
+gameSprite.prototype._coordY = null;
+
+gameSprite.prototype._owner = null;
+
+gameSprite.prototype._sprite = null;
+
+
+gameSprite.prototype.getCollisionType = function()
+{
+    return this._collisionType;
+}
+
+gameSprite.prototype.setCollisionType = function(collisionType)
+{
+    this._collisionType = collisionType;
+}
+
+gameSprite.prototype.getType = function()
+{
+    return this._type;
+}
+
+gameSprite.prototype.setType = function(type)
+{
+    this._type = type;
+}
+
+gameSprite.prototype.getAnimation = function()
+{
+    return this._animation;
+}
+
+gameSprite.prototype.setAnimation = function(animation)
+{
+    this._animation = animation;
+    if(this._sprite != null){
+        this._sprite.setAnimation(animation);
+    }
+}
+
+gameSprite.prototype.getFrameRate = function()
+{
+    return this._frameRate;
+}
+
+gameSprite.prototype.setFrameRate = function(frameRate)
+{
+    this._frameRate = frameRate;
+}
+
+gameSprite.prototype.setCoords = function(x, y)
+{
+    this._coordX = x;
+    this._coordY = y;
+}
+
+gameSprite.prototype.getCoordX = function()
+{
+    return this._coordX;
+}
+
+gameSprite.prototype.getCoordY = function()
+{
+    return this._coordY;
+}
+
+gameSprite.prototype.getOwner = function()
+{
+    return this._owner;
+}
+
+gameSprite.prototype.setOwner = function(owner)
+{
+    this._owner = owner;
+}
+
+gameSprite.prototype.sendEvent = function(event)
+{
+    this._owner.eventListener(event, this);
+}
+
+gameSprite.prototype.getSprite = function()
+{
+    return this._sprite;
+}
+
+gameSprite.prototype.setSprite = function(sprite)
+{
+    this._sprite = sprite;
+}
+
+gameSprite.prototype._switchAnimation = function()
+{
+
+}

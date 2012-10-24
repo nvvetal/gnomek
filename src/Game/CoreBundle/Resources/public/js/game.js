@@ -1,24 +1,27 @@
 function game (){
-    this._links = null;
 
-    this._containerId = null;
-    this._width = null;
-    this._height= null;
+}
 
-    this._gnomek = null;
+game.prototype._links = null;
 
-    this._resources = null;
-    this._resourcesLoaded = 0;
-    this._animations = {};
-    this._animObjects = {};
+game.prototype._containerId = null;
+game.prototype._width = null;
+game.prototype._height= null;
 
-    this._sprites = null;
+game.prototype._gnomek = null;
 
-    this._maxX = 32;
-    this._maxY = 25;
+game.prototype._resources = null;
+game.prototype._resourcesLoaded = 0;
+game.prototype._animations = {};
+game.prototype._animObjects = {};
+
+game.prototype._sprites = null;
+
+game.prototype._maxX = 32;
+game.prototype._maxY = 25;
 
 
-    this.init = function(container, width, height, links){
+game.prototype.init = function(container, width, height, links){
         this._links         = links;
         this._initProgress(0);
         this._containerId   = container;
@@ -36,9 +39,9 @@ function game (){
                 this._sprites[i][k] = jQuery.parseJSON('{"items": {}}');
             }
         }
-    }
+}
 
-    this._initProgress = function(progressCount){
+game.prototype._initProgress = function(progressCount){
         if(progressCount == 0){
             this.getResources();
         }
@@ -48,10 +51,10 @@ function game (){
         if(progressCount == -1){
             console.log('SHIIIT!');
         }
-    }
+}
 
-    this.getResources = function()
-    {
+game.prototype.getResources = function()
+{
         var xmlRequest = $.ajax({
             type: "GET",
             url: this._links['resources']
@@ -64,9 +67,9 @@ function game (){
         xmlRequest.fail(function(jqXHR, textStatus) {
             self._initProgress(-1);
         });
-    }
+}
 
-    this.initResources = function(data)
+game.prototype.initResources = function(data)
     {
         this._resources = data;
         var terrainObj = new Image();
@@ -96,7 +99,7 @@ function game (){
             }
     }
 
-    this.loadGame = function()
+game.prototype.loadGame = function()
     {
         var stage = new Kinetic.Stage({
             container:  this._containerId,
@@ -128,6 +131,7 @@ function game (){
                     });
                     layer.add(sprite);
                     sprite.start();
+                    obj.setSprite(sprite);
                 });
 
             }
@@ -136,9 +140,13 @@ function game (){
 
     }
 
-    this.setMapItem = function(x, y, itemType, itemData)
+game.prototype.setMapItem = function(x, y, itemType, itemData)
     {
-        var spriteData = new gameSprite();
+        if(itemType == 'gnomek'){
+            var spriteData = new gameSpriteUser();
+        }else{
+            var spriteData = new gameSprite();
+        }
         spriteData.setCollisionType(itemData.collisionType);
         spriteData.setType(itemData.type);
         spriteData.setAnimation(itemData.animation);
@@ -150,58 +158,70 @@ function game (){
         this._sprites[x][y].items[itemType] = spriteData;
     }
 
-    this.tryAction =  function(action)
+game.prototype.tryAction =  function(action)
     {
         //TODO: a lot - check for collision at least
-        if(action == 'moveLeft'){
-            var canMove = this.canMove(this._gnomek.getCoordX() - 1, this._gnomek.getCoordY());
-            console.log(canMove);
-            if(canMove == false){
-                console.log('Cannot do ' + action);
-                return false;
-            }
-            this.sendDo(action);
-            return true;
+        methodName = 'tryAct_'+action;
+        var self = this;
+        if(game.prototype.hasOwnProperty(methodName)){
+            return this[methodName].call(self, self);
         }
+        this._gnomek.setCurrentAction('stay');
+        //console.log('action not matched');
+        return false;
+}
 
-        if(action == 'moveRight'){
-            var canMove = this.canMove(this._gnomek.getCoordX() + 1, this._gnomek.getCoordY());
-            console.log(canMove);
-            if(canMove == false){
-                console.log('Cannot do ' + action);
-                return false;
-            }
-            this.sendDo(action);
-            return true;
-        }
-
-        if(action == 'moveTop'){
-            var canMove = this.canMove(this._gnomek.getCoordX(), this._gnomek.getCoordY() - 1);
-            console.log(canMove);
-            if(canMove == false){
-                console.log('Cannot do ' + action);
-                return false;
-            }
-            this.sendDo(action);
-            return true;
-        }
-
-        if(action == 'moveDown'){
-            var canMove = this.canMove(this._gnomek.getCoordX(), this._gnomek.getCoordY() + 1);
-            console.log(canMove);
-            if(canMove == false){
-                console.log('Cannot do ' + action);
-                return false;
-            }
-            this.sendDo(action);
-            return true;
-        }
-
-        console.log('action not matched');
+game.prototype.tryAct_moveLeft = function(caller)
+{
+    //console.log(caller);
+    var canMove = caller.canMove(caller._gnomek.getCoordX() - 1, caller._gnomek.getCoordY());
+    if(canMove == false){
+        caller.tryAction('stay');
         return false;
     }
+    caller._gnomek.setCurrentAction('move');
+    caller._gnomek.setCurrentPosition('left');
+    caller.sendDo('moveLeft');
+    return true;
+}
 
-    this.sendDo = function(action)
+game.prototype.tryAct_moveRight = function(caller)
+{
+    var canMove = caller.canMove(caller._gnomek.getCoordX() + 1, caller._gnomek.getCoordY());
+    if(canMove == false){
+        return false;
+    }
+    caller._gnomek.setCurrentAction('move');
+    caller._gnomek.setCurrentPosition('right');
+    caller.sendDo('moveRight');
+    return true;
+}
+
+game.prototype.tryAct_moveTop = function(caller)
+{
+    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() - 1);
+    if(canMove == false){
+        return false;
+    }
+    caller._gnomek.setCurrentAction('move');
+    caller._gnomek.setCurrentPosition('top');
+    caller.sendDo('moveTop');
+    return true;
+}
+
+game.prototype.tryAct_moveDown = function(caller)
+{
+    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() + 1);
+    if(canMove == false){
+        return false;
+    }
+    caller._gnomek.setCurrentAction('move');
+    caller._gnomek.setCurrentPosition('bottom');
+    caller.sendDo('moveBottom');
+    return true;
+}
+
+game.prototype.sendDo = function(action)
     {
         var xmlRequest = $.ajax({
             type: "POST",
@@ -212,7 +232,7 @@ function game (){
         });
     }
 
-    this.canMove = function(x, y)
+game.prototype.canMove = function(x, y)
     {
         if(x < 0 || y < 0) return false;
         if(x - 1 > this._maxX || y - 1 > this._maxY) return false;
@@ -229,6 +249,25 @@ function game (){
         return true;
     }
 
-}
+game.prototype.eventListener = function(event, sender)
+    {
+        if(gameSprite instanceof sender)
+        {
+            if(event == 'animation')
+            {
+                //this._sprites[x][y].items[sender.getType()].
+            }
+        }
+    }
 
-game.prototype = {};
+
+
+
+
+function extend(Child, Parent) {
+    var F = function() { }
+    F.prototype = Parent.prototype
+    Child.prototype = new F()
+    Child.prototype.constructor = Child
+    Child.superclass = Parent.prototype
+}
