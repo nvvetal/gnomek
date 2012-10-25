@@ -118,10 +118,12 @@ class ResourcesController extends Controller
         );
 
         $gnomek = array(
-            'x'         => 10,
-            'y'         => 2,
-            'animation' => 'rightMine',
-            'frameRate' => 3,
+            'x'                 => 10,
+            'y'                 => 2,
+            'animation'         => 'rightMine',
+            'frameRate'         => 3,
+            'currentAction'     => 'move',
+            'currentPosition'   => 'right',
         );
 
         $data = array(

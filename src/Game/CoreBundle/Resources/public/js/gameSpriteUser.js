@@ -39,9 +39,15 @@ gameSpriteUser.prototype._switchAnimation = function()
     {
         this.setAnimation('idle');
     }
-
-
 }
 
-
-
+gameSpriteUser.prototype.getNextAnimation = function()
+{
+    var currentAction = this.getCurrentAction();
+    //console.log(currentAction);
+    if(currentAction == 'move')
+    {
+        return this.setCurrentAction('stay');
+        //this.handleAnimation(this.getAnimation());
+    }
+}

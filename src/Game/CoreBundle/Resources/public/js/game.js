@@ -78,8 +78,10 @@ game.prototype.initResources = function(data)
     terrainObj.onload = function() {
         self._animObjects['terrain'] = terrainObj;
         var k = self._sprites.length;
-        for(i = 0; i < self._resources.terrains.items.length; i++){
-            var itemData = jQuery.parseJSON('{"type":"terrain","collisionType":"'+self._resources.terrains.items[i].collisionType+'", "animation": "'+self._resources.terrains.items[i].animation+'","frameRate": "'+self._resources.terrains.items[i].frameRate+'"}');
+        for(i = 0; i < self._resources.terrains.items.length; i++)
+        {
+            var itemData = self._resources.terrains.items[i];
+            itemData.type = 'terrain';
             self.setMapItem(self._resources.terrains.items[i].x, self._resources.terrains.items[i].y, 'terrain', itemData);
         }
         self._resourcesLoaded++;
@@ -90,7 +92,9 @@ game.prototype.initResources = function(data)
     self._animations['gnomek'] = self._resources.gnomek.animations;
     gnomekObj.onload = function() {
         self._animObjects['gnomek'] = gnomekObj;
-        var itemData = jQuery.parseJSON('{"type":"gnomek","collisionType":"user", "animation": "'+self._resources.gnomek.gnomek.animation+'","frameRate": "'+self._resources.gnomek.gnomek.frameRate+'"}');
+        var itemData =  self._resources.gnomek.gnomek;
+        itemData.type = 'gnomek';
+        //var itemData = jQuery.parseJSON('{"type":"gnomek","collisionType":"user", "animation": "'+self._resources.gnomek.gnomek.animation+'","frameRate": "'+self._resources.gnomek.gnomek.frameRate+'"}');
         self.setMapItem(self._resources.gnomek.gnomek.x, self._resources.gnomek.gnomek.y, 'gnomek', itemData);
         self._resourcesLoaded++;
         self._initProgress(1);
@@ -129,13 +133,8 @@ game.prototype.loadGame = function()
                 });
                 layer.add(sprite);
                 sprite.start();
-                sprite.afterFrame(2, function() {
-                    console.log('zzz');
-                    obj.incCounter();
-                });
-
-
                 obj.setSprite(sprite);
+                obj.handleAnimation(obj.getAnimation());
             });
 
         }
@@ -158,12 +157,17 @@ game.prototype.setMapItem = function(x, y, itemType, itemData)
     }else{
         var spriteData = new gameSprite();
     }
+    spriteData.setGame(this);
     spriteData.setCollisionType(itemData.collisionType);
     spriteData.setType(itemData.type);
     spriteData.setAnimation(itemData.animation);
     spriteData.setFrameRate(itemData.frameRate);
     spriteData.setCoords(x, y);
+
     if(itemType == 'gnomek'){
+        //console.log(itemData);
+        spriteData.setCurrentAction(itemData.currentAction);
+        spriteData.setCurrentPosition(itemData.currentPosition);
         this._gnomek = spriteData;
     }
     this._sprites[x][y].items[itemType] = spriteData;
@@ -269,6 +273,12 @@ game.prototype.eventListener = function(event, sender)
             //this._sprites[x][y].items[sender.getType()].
         }
     }
+}
+
+game.prototype.getAnimationLength = function(itemType, animation)
+{
+    //console.log(itemType, animation);
+    return this._animations[itemType][animation].length;
 }
 
 function extend(Child, Parent) {

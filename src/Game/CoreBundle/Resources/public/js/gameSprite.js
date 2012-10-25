@@ -11,6 +11,8 @@ gameSprite.prototype._counter = 0;
 gameSprite.prototype._type = 'none';
 
 gameSprite.prototype._animation = '';
+gameSprite.prototype._animationLength = 2;
+
 gameSprite.prototype._frameRate = 2;
 
 gameSprite.prototype._coordX = null;
@@ -20,6 +22,7 @@ gameSprite.prototype._owner = null;
 
 gameSprite.prototype._sprite = null;
 
+gameSprite.prototype._game = null;
 
 gameSprite.prototype.getCollisionType = function()
 {
@@ -48,9 +51,20 @@ gameSprite.prototype.getAnimation = function()
 
 gameSprite.prototype.setAnimation = function(animation)
 {
-    this._animation = animation;
+    this._animation         = animation;
+    //console.log(this._game.getAnimationLength(this.getType(), animation));
+    this.handleAnimation(animation);
+}
+
+gameSprite.prototype.handleAnimation = function(animation)
+{
     if(this._sprite != null){
         this._sprite.setAnimation(animation);
+        var self = this;
+       // console.log(this.getType(), animation);
+        this._sprite.afterFrame(this._game.getAnimationLength(this.getType(), animation) - 1, function(){
+            self.getNextAnimation();
+        });
     }
 }
 
@@ -105,6 +119,11 @@ gameSprite.prototype.setSprite = function(sprite)
     this._sprite = sprite;
 }
 
+gameSprite.prototype.setGame = function(game)
+{
+    this._game = game;
+}
+
 gameSprite.prototype._switchAnimation = function()
 {
 
@@ -119,4 +138,9 @@ gameSprite.prototype.incCounter = function()
 gameSprite.prototype.clearCounter = function()
 {
     this._counter = 0;
+}
+
+gameSprite.prototype.getNextAnimation = function()
+{
+
 }
