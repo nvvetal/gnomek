@@ -206,8 +206,11 @@ game.prototype.tryAct_moveRight = function(caller)
     if(canMove == false){
         return false;
     }
-    caller._gnomek.setCurrentAction('move');
-    caller._gnomek.setCurrentPosition('right');
+
+    var prevAction = caller._gnomek.getCurrentAction();
+    //caller._gnomek.setCurrentAction('move');
+    //caller._gnomek.setCurrentPosition('right');
+    caller._gnomek.setTurn('move', 'right');
     caller.sendDo('moveRight');
     return true;
 }
@@ -277,7 +280,7 @@ game.prototype.eventListener = function(event, sender)
 
 game.prototype.getAnimationLength = function(itemType, animation)
 {
-    //console.log(itemType, animation);
+    console.log(this._animations[itemType][animation].length);
     return this._animations[itemType][animation].length;
 }
 

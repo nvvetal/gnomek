@@ -95,11 +95,51 @@ class ResourcesController extends Controller
 
     private function _getGnomek()
     {
-        $rightMine = array();
+        $mineRight = array();
         for($i = 0; $i < 7; $i++){
-            $rightMine[] = array(
+            $mineRight[] = array(
                 'x'     => $i * 32,
                 'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
+        $moveRight = array();
+        for($i = 0; $i < 6; $i++){
+            $moveRight[] = array(
+                'x'     => $i * 32,
+                'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
+        $moveRightBegin = array();
+        for($i = 0; $i < 3; $i++){
+            $moveRightBegin[] = array(
+                'x'     => $i * 32,
+                'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
+        $moveRightEnd = array();
+        for($i = 3; $i < 6; $i++){
+            $moveRightEnd[] = array(
+                'x'     => $i * 32,
+                'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
+        $moveLeft = array();
+        for($i = 0; $i < 6; $i++){
+            $moveLeft[] = array(
+                'x'     => $i * 32,
+                'y'     => 64,
                 'width' => 32,
                 'height'=> 32,
             );
@@ -114,16 +154,20 @@ class ResourcesController extends Controller
 			        'height'=> 32,
                 ),
             ),
-            'rightMine' => $rightMine,
+            'mineRight'         => $mineRight,
+            'moveRight'         => $moveRight,
+            'moveLeft'          => $moveLeft,
+            'moveRightBegin'    => $moveRightBegin,
+            'moveRightEnd'      => $moveRightEnd,
         );
 
         $gnomek = array(
             'x'                 => 10,
             'y'                 => 2,
-            'animation'         => 'rightMine',
+            'animation'         => 'moveRightBegin',
             'frameRate'         => 3,
             'currentAction'     => 'move',
-            'currentPosition'   => 'right',
+            'currentPosition'   => 'rightBegin',
         );
 
         $data = array(

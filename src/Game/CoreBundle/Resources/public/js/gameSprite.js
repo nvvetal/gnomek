@@ -62,8 +62,10 @@ gameSprite.prototype.handleAnimation = function(animation)
         this._sprite.setAnimation(animation);
         var self = this;
        // console.log(this.getType(), animation);
+
         this._sprite.afterFrame(this._game.getAnimationLength(this.getType(), animation) - 1, function(){
-            self.getNextAnimation();
+            self.getNextTurn();
+            ///console.log('');
         });
     }
 }
@@ -129,6 +131,8 @@ gameSprite.prototype._switchAnimation = function()
 
 }
 
+
+
 gameSprite.prototype.incCounter = function()
 {
     this._counter++;
@@ -140,7 +144,12 @@ gameSprite.prototype.clearCounter = function()
     this._counter = 0;
 }
 
-gameSprite.prototype.getNextAnimation = function()
+gameSprite.prototype.getNextTurn = function()
+{
+    //console.log('ololo');
+}
+
+gameSprite.prototype.setTurn = function(action, position)
 {
 
 }
