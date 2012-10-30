@@ -155,3 +155,4 @@ gameSprite.prototype.setTurn = function(action, position)
 {
 
 }
+

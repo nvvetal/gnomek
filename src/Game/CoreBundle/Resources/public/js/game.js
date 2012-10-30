@@ -14,9 +14,12 @@ game.prototype._animations = {};
 game.prototype._animObjects = {};
 
 game.prototype._sprites = null;
+game.prototype._layer = null;
 
 game.prototype._maxX = 32;
 game.prototype._maxY = 25;
+
+game.prototype._fieldSize = 32;
 
 
 game.prototype.init = function(container, width, height, links){
@@ -108,46 +111,80 @@ game.prototype.loadGame = function()
         width:      this._width,
         height:     this._height
     });
-    var layer = new Kinetic.Layer();
+    //var layer = new Kinetic.Layer();
+    this._layer = new Kinetic.Layer();
     //console.log( this._sprites);
     //return false;
+    var self = this;
     for(var i = 0; i < this._sprites.length; i++){
         for (var k = 0; k < this._sprites[i].length; k++)
         {
             if(this._sprites[i][k].length == 0) continue;
-            var self = this;
+
             $.each(this._sprites[i][k].items, function(j, obj)
             {
                 var imageName = 'terrainObj';
-                if(obj.getType() == 'gnomek') {
+                if(obj.getType() == 'gnomek')
+                {
                     imageName = 'gnomekObj';
                 }
+
                 var animations = self._animations[obj.getType()];
                 var sprite = new Kinetic.Sprite({
-                    x: i * 32,
-                    y: k * 32,
+                    x: i * self._fieldSize,
+                    y: k * self._fieldSize,
                     image: self._animObjects[obj.getType()],
                     animation: obj.getAnimation(),
                     animations: animations,
                     frameRate: obj.getFrameRate()
                 });
-                layer.add(sprite);
+
+                self._layer.add(sprite);
                 sprite.start();
                 obj.setSprite(sprite);
+                if(obj.getType() == 'gnomek') {
+                    sprite.setZIndex(100);
+                }else{
+                    sprite.setZIndex(1);
+                }
                 obj.handleAnimation(obj.getAnimation());
             });
 
         }
     }
-    stage.add(layer);
+    stage.add(self._layer);
     var anim = new Kinetic.Animation({
         func: function(frame) {
-            //console.log(frame.);
+            //console.log(frame);
             //console.log(frame.time);
+            self._animateSprites(frame);
         },
-        node: layer
+        node: self._layer
     });
     anim.start();
+}
+
+game.prototype._animateSprites = function(frame)
+{
+    var self = this;
+    for(var i = 0; i < this._sprites.length; i++){
+        for (var k = 0; k < this._sprites[i].length; k++)
+        {
+            if(this._sprites[i][k].length == 0) continue;
+            //
+            $.each(this._sprites[i][k].items, function(j, obj)
+            {
+                if(obj.getType() != 'gnomek') return true;
+                if(obj.getCurrentAction() != 'move')  return true;
+                if(obj.getCurrentPosition() == 'right')
+                {
+                    var step = self._fieldSize / (self.getAnimationLength(obj.getType(), obj.getAnimation()) / obj.getFrameRate());
+                    //console.log(frame.timeDiff);
+                    obj._sprite.setX(obj._sprite.getX() + parseInt(step));
+                }
+            });
+        }
+    }
 }
 
 game.prototype.setMapItem = function(x, y, itemType, itemData)
@@ -194,8 +231,7 @@ game.prototype.tryAct_moveLeft = function(caller)
         caller.tryAction('stay');
         return false;
     }
-    caller._gnomek.setCurrentAction('move');
-    caller._gnomek.setCurrentPosition('left');
+    caller._gnomek.setTurn('move', 'left');
     caller.sendDo('moveLeft');
     return true;
 }
@@ -221,8 +257,7 @@ game.prototype.tryAct_moveTop = function(caller)
     if(canMove == false){
         return false;
     }
-    caller._gnomek.setCurrentAction('move');
-    caller._gnomek.setCurrentPosition('top');
+    caller._gnomek.setTurn('move', 'top');
     caller.sendDo('moveTop');
     return true;
 }
@@ -233,9 +268,8 @@ game.prototype.tryAct_moveDown = function(caller)
     if(canMove == false){
         return false;
     }
-    caller._gnomek.setCurrentAction('move');
-    caller._gnomek.setCurrentPosition('bottom');
-    caller.sendDo('moveBottom');
+    caller._gnomek.setTurn('move', 'down');
+    caller.sendDo('moveDown');
     return true;
 }
 
@@ -263,25 +297,28 @@ game.prototype.canMove = function(x, y)
             return false;
         }
     });
+    //console.log(notIsWall);
     if(!notIsWall) return false;
     return true;
 }
 
-game.prototype.eventListener = function(event, sender)
-{
-    if(gameSprite instanceof sender)
-    {
-        if(event == 'animation')
-        {
-            //this._sprites[x][y].items[sender.getType()].
-        }
-    }
-}
 
 game.prototype.getAnimationLength = function(itemType, animation)
 {
     //console.log(animation, this._animations[itemType][animation].length);
     return this._animations[itemType][animation].length - 1;
+}
+
+game.prototype.moveItem = function(itemType, fromX, fromY, toX, toY)
+{
+    this._sprites[toX][toY].items[itemType] = this._sprites[fromX][fromY].items[itemType];
+    //this._layer.remove(this._sprites[fromX][fromY].items[itemType]._sprite);
+    delete this._sprites[fromX][fromY].items[itemType];
+
+    this._sprites[toX][toY].items[itemType]._sprite.setX(toX * this._fieldSize);
+    this._sprites[toX][toY].items[itemType]._sprite.setY(toY * this._fieldSize);
+    //this._sprites[toX][toY].items[itemType]._sprite.start();
+    this._sprites[toX][toY].items[itemType].setCoords(toX, toY);
 }
 
 function extend(Child, Parent) {

@@ -50,19 +50,22 @@ gameSpriteUser.prototype.getNextTurn = function()
 {
     var currentAction   = this.getCurrentAction();
     var currentPosition = this.getCurrentPosition();
-    console.log(currentAction, currentPosition);
+    //console.log(currentAction, currentPosition);
     if(currentAction == 'move')
     {
         if(currentPosition == 'right')
         {
-            //console.log('zz');
-            this._sprite.setX(this._sprite.getX() + 100);
-            this._sprite.y += 100;
+            this._game.moveItem(this.getType(), this._coordX, this._coordY,  this._coordX + 1, this._coordY);
             return this.setTurn('stay', 'none');
         }
+        if(currentPosition == 'left')
+        {
+            this._game.moveItem(this.getType(), this._coordX, this._coordY,  this._coordX - 1, this._coordY);
+            return this.setTurn('stay', 'none');
+        }
+
         return this.setTurn('stay', 'none');
     }
-    //console.log('hmm');
 }
 
 gameSpriteUser.prototype.setTurn = function(action, position)
@@ -80,3 +83,4 @@ gameSpriteUser.prototype.setTurn = function(action, position)
         this.setAnimation(action+ucPos);
     }
 }
+
