@@ -5430,10 +5430,14 @@ Kinetic.Sprite.prototype = {
         this.interval = setInterval(function() {
             var index = that.attrs.index;
             that._updateIndex();
+            //console.log(index, that.afterFrameIndex);
             if(that.afterFrameFunc && index === that.afterFrameIndex) {
+
                 that.afterFrameFunc();
                 delete that.afterFrameFunc;
                 delete that.afterFrameIndex;
+                //that.afterFrameFunc = 'removed';
+                //that.afterFrameIndex = -1;
             }
         }, 1000 / this.attrs.frameRate);
 
@@ -5458,6 +5462,7 @@ Kinetic.Sprite.prototype = {
     afterFrame: function(index, func) {
         this.afterFrameIndex = index;
         this.afterFrameFunc = func;
+        //console.log(index,func);
     },
     _updateIndex: function() {
         var i = this.attrs.index;
@@ -5468,6 +5473,7 @@ Kinetic.Sprite.prototype = {
         else {
             this.attrs.index = 0;
         }
+        //console.log(this.attrs.index);
     }
 };
 Kinetic.Global.extend(Kinetic.Sprite, Kinetic.Shape);

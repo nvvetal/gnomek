@@ -58,14 +58,16 @@ gameSprite.prototype.setAnimation = function(animation)
 
 gameSprite.prototype.handleAnimation = function(animation)
 {
+    //console.log('setting'+animation);
     if(this._sprite != null){
         this._sprite.setAnimation(animation);
         var self = this;
        // console.log(this.getType(), animation);
 
-        this._sprite.afterFrame(this._game.getAnimationLength(this.getType(), animation) - 1, function(){
+        this._sprite.afterFrame(this._game.getAnimationLength(this.getType(), animation), function(){
             self.getNextTurn();
-            ///console.log('');
+
+            //sprite
         });
     }
 }

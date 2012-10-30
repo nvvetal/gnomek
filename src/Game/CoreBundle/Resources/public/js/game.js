@@ -246,7 +246,7 @@ game.prototype.sendDo = function(action)
         url: this._links['do']+'/'+action
     });
     xmlRequest.done(function( data ) {
-        console.log(data);
+        //console.log(data);
     });
 }
 
@@ -280,8 +280,8 @@ game.prototype.eventListener = function(event, sender)
 
 game.prototype.getAnimationLength = function(itemType, animation)
 {
-    console.log(this._animations[itemType][animation].length);
-    return this._animations[itemType][animation].length;
+    //console.log(animation, this._animations[itemType][animation].length);
+    return this._animations[itemType][animation].length - 1;
 }
 
 function extend(Child, Parent) {

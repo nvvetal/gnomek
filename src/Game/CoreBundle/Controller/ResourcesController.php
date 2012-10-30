@@ -115,26 +115,6 @@ class ResourcesController extends Controller
             );
         }
 
-        $moveRightBegin = array();
-        for($i = 0; $i < 3; $i++){
-            $moveRightBegin[] = array(
-                'x'     => $i * 32,
-                'y'     => 32,
-                'width' => 32,
-                'height'=> 32,
-            );
-        }
-
-        $moveRightEnd = array();
-        for($i = 3; $i < 6; $i++){
-            $moveRightEnd[] = array(
-                'x'     => $i * 32,
-                'y'     => 32,
-                'width' => 32,
-                'height'=> 32,
-            );
-        }
-
         $moveLeft = array();
         for($i = 0; $i < 6; $i++){
             $moveLeft[] = array(
@@ -146,7 +126,7 @@ class ResourcesController extends Controller
         }
 
         $animations = array(
-            'idle' => array(
+            'stay' => array(
                 array(
                     'x'     => 0,
 			        'y'     => 0,
@@ -157,17 +137,15 @@ class ResourcesController extends Controller
             'mineRight'         => $mineRight,
             'moveRight'         => $moveRight,
             'moveLeft'          => $moveLeft,
-            'moveRightBegin'    => $moveRightBegin,
-            'moveRightEnd'      => $moveRightEnd,
         );
 
         $gnomek = array(
             'x'                 => 10,
             'y'                 => 2,
-            'animation'         => 'moveRightBegin',
+            'animation'         => 'stay',
             'frameRate'         => 3,
-            'currentAction'     => 'move',
-            'currentPosition'   => 'rightBegin',
+            'currentAction'     => 'stay',
+            'currentPosition'   => 'none',
         );
 
         $data = array(
