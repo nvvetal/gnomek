@@ -24,6 +24,9 @@ gameSprite.prototype._sprite = null;
 
 gameSprite.prototype._game = null;
 
+//using for animation
+gameSprite.prototype._milliseconds = 0;
+
 gameSprite.prototype.getCollisionType = function()
 {
     return this._collisionType;
@@ -156,3 +159,17 @@ gameSprite.prototype.setTurn = function(action, position)
 
 }
 
+gameSprite.prototype.incMilliseconds = function(milliseconds)
+{
+    this._milliseconds += milliseconds;
+}
+
+gameSprite.prototype.getMilliseconds = function()
+{
+    return this._milliseconds;
+}
+
+gameSprite.prototype.clearMilliseconds = function()
+{
+    this._milliseconds = 0;
+}

@@ -176,12 +176,24 @@ game.prototype._animateSprites = function(frame)
             {
                 if(obj.getType() != 'gnomek') return true;
                 if(obj.getCurrentAction() != 'move')  return true;
-                if(obj.getCurrentPosition() == 'right')
-                {
-                    var step = self._fieldSize / (self.getAnimationLength(obj.getType(), obj.getAnimation()) / obj.getFrameRate());
-                    //console.log(frame.timeDiff);
-                    obj._sprite.setX(obj._sprite.getX() + parseInt(step));
+                var xSign = 1;
+                if(obj.getCurrentPosition() == 'left'){
+                    xSign = -1;
                 }
+                if(obj.getCurrentPosition() == 'right' || obj.getCurrentPosition() == 'left')
+                {
+                    var mSecondsPerStep = 1000 / obj.getFrameRate();
+                    obj.incMilliseconds(frame.timeDiff);
+                    if(obj.getMilliseconds() > mSecondsPerStep)
+                    {
+                        var stepWidth       = self._fieldSize / self.getAnimationLength(obj.getType(), obj.getAnimation());
+                        obj.clearMilliseconds();
+                        //console.log(parseInt(stepWidth), mSecondsPerStep);
+                        obj._sprite.setX(obj._sprite.getX() + parseInt(stepWidth) * xSign);
+                    }
+
+                }
+
             });
         }
     }
@@ -312,12 +324,9 @@ game.prototype.getAnimationLength = function(itemType, animation)
 game.prototype.moveItem = function(itemType, fromX, fromY, toX, toY)
 {
     this._sprites[toX][toY].items[itemType] = this._sprites[fromX][fromY].items[itemType];
-    //this._layer.remove(this._sprites[fromX][fromY].items[itemType]._sprite);
     delete this._sprites[fromX][fromY].items[itemType];
-
     this._sprites[toX][toY].items[itemType]._sprite.setX(toX * this._fieldSize);
     this._sprites[toX][toY].items[itemType]._sprite.setY(toY * this._fieldSize);
-    //this._sprites[toX][toY].items[itemType]._sprite.start();
     this._sprites[toX][toY].items[itemType].setCoords(toX, toY);
 }
 

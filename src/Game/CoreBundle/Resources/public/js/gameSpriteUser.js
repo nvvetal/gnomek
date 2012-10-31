@@ -14,7 +14,7 @@ gameSpriteUser.prototype._currentPosition = 'none';
 gameSpriteUser.prototype.setCurrentAction = function(currentAction)
 {
     this._currentAction = currentAction;
-    //this._switchAnimation();
+    this.clearMilliseconds();
 }
 
 gameSpriteUser.prototype.getCurrentAction = function()
@@ -53,17 +53,15 @@ gameSpriteUser.prototype.getNextTurn = function()
     //console.log(currentAction, currentPosition);
     if(currentAction == 'move')
     {
-        if(currentPosition == 'right')
+        var xPlus = 0;
+        var yPlus = 0;
+        if(currentPosition == 'right') xPlus++;
+        if(currentPosition == 'left') xPlus--;
+        if(currentPosition == 'left' || currentPosition == 'right')
         {
-            this._game.moveItem(this.getType(), this._coordX, this._coordY,  this._coordX + 1, this._coordY);
+            this._game.moveItem(this.getType(), this._coordX, this._coordY,  this._coordX + xPlus, this._coordY);
             return this.setTurn('stay', 'none');
         }
-        if(currentPosition == 'left')
-        {
-            this._game.moveItem(this.getType(), this._coordX, this._coordY,  this._coordX - 1, this._coordY);
-            return this.setTurn('stay', 'none');
-        }
-
         return this.setTurn('stay', 'none');
     }
 }
