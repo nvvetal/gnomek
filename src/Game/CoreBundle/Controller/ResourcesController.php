@@ -96,7 +96,7 @@ class ResourcesController extends Controller
     private function _getGnomek()
     {
         $mineRight = array();
-        for($i = 0; $i < 7; $i++){
+        for($i = 2; $i < 3; $i++){
             $mineRight[] = array(
                 'x'     => $i * 32,
                 'y'     => 32,
@@ -105,8 +105,18 @@ class ResourcesController extends Controller
             );
         }
 
+        $mineLeft = array();
+        for($i = 2; $i < 3; $i++){
+            $mineLeft[] = array(
+                'x'     => $i * 32,
+                'y'     => 32,
+                'width' => 32,
+                'height'=> 32,
+            );
+        }
+
         $moveRight = array();
-        for($i = 0; $i < 6; $i++){
+        for($i = 0; $i < 1; $i++){
             $moveRight[] = array(
                 'x'     => $i * 32,
                 'y'     => 32,
@@ -116,7 +126,7 @@ class ResourcesController extends Controller
         }
 
         $moveLeft = array();
-        for($i = 0; $i < 6; $i++){
+        for($i = 0; $i < 1; $i++){
             $moveLeft[] = array(
                 'x'     => $i * 32,
                 'y'     => 64,
@@ -135,6 +145,7 @@ class ResourcesController extends Controller
                 ),
             ),
             'mineRight'         => $mineRight,
+            'mineLeft'          => $mineLeft,
             'moveRight'         => $moveRight,
             'moveLeft'          => $moveLeft,
         );
@@ -143,7 +154,7 @@ class ResourcesController extends Controller
             'x'                 => 10,
             'y'                 => 2,
             'animation'         => 'stay',
-            'frameRate'         => 3,
+            'frameRate'         => 2,
             'currentAction'     => 'stay',
             'currentPosition'   => 'none',
         );

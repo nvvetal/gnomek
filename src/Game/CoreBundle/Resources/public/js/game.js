@@ -188,7 +188,7 @@ game.prototype._animateSprites = function(frame)
                     {
                         var stepWidth       = self._fieldSize / self.getAnimationLength(obj.getType(), obj.getAnimation());
                         obj.clearMilliseconds();
-                        //console.log(parseInt(stepWidth), mSecondsPerStep);
+                        console.log(parseInt(stepWidth), mSecondsPerStep, self._fieldSize, self.getAnimationLength(obj.getType(), obj.getAnimation()), obj.getAnimation());
                         obj._sprite.setX(obj._sprite.getX() + parseInt(stepWidth) * xSign);
                     }
 
@@ -318,7 +318,7 @@ game.prototype.canMove = function(x, y)
 game.prototype.getAnimationLength = function(itemType, animation)
 {
     //console.log(animation, this._animations[itemType][animation].length);
-    return this._animations[itemType][animation].length - 1;
+    return this._animations[itemType][animation].length;
 }
 
 game.prototype.moveItem = function(itemType, fromX, fromY, toX, toY)
