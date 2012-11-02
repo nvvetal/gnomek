@@ -27,6 +27,8 @@ gameSprite.prototype._game = null;
 //using for animation
 gameSprite.prototype._milliseconds = 0;
 
+gameSprite.prototype._iteration = 0;
+
 gameSprite.prototype.getCollisionType = function()
 {
     return this._collisionType;
@@ -172,4 +174,32 @@ gameSprite.prototype.getMilliseconds = function()
 gameSprite.prototype.clearMilliseconds = function()
 {
     this._milliseconds = 0;
+}
+
+
+gameSprite.prototype.incIteration = function()
+{
+    this._iteration ++;
+}
+
+gameSprite.prototype.getIteration = function()
+{
+    return this._iteration;
+}
+
+gameSprite.prototype.clearIteration = function()
+{
+    this._iteration = 0;
+}
+
+gameSprite.prototype.isTurnEnd = function()
+{
+    if(this.getMaxIterations() < this.getIteration()) return true;
+    return false;
+
+}
+
+gameSprite.prototype.getMaxIterations = function()
+{
+    return 10;
 }

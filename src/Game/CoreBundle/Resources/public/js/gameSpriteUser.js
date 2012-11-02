@@ -39,10 +39,11 @@ gameSpriteUser.prototype.handleAnimation = function(animation)
         //console.log(animation);
         this._sprite.setAnimation(animation);
         var self = this;
-
+        /*
         this._sprite.afterFrame(this._game.getAnimationLength(this.getType(), animation) - 1, function(){
             self.getNextTurn();
         });
+        */
     }
 }
 
@@ -50,7 +51,6 @@ gameSpriteUser.prototype.getNextTurn = function()
 {
     var currentAction   = this.getCurrentAction();
     var currentPosition = this.getCurrentPosition();
-    //console.log(currentAction, currentPosition);
     if(currentAction == 'move')
     {
         var xPlus = 0;
@@ -81,4 +81,5 @@ gameSpriteUser.prototype.setTurn = function(action, position)
         this.setAnimation(action+ucPos);
     }
 }
+
 

@@ -182,16 +182,22 @@ game.prototype._animateSprites = function(frame)
                 }
                 if(obj.getCurrentPosition() == 'right' || obj.getCurrentPosition() == 'left')
                 {
-                    var mSecondsPerStep = 1000 / obj.getFrameRate();
+                    //var mSecondsPerStep = 1000 / obj.getFrameRate();
+                    var mSecondsPerStep = 100;
                     obj.incMilliseconds(frame.timeDiff);
                     if(obj.getMilliseconds() > mSecondsPerStep)
                     {
                         var stepWidth       = self._fieldSize / self.getAnimationLength(obj.getType(), obj.getAnimation());
-                        obj.clearMilliseconds();
-                        console.log(parseInt(stepWidth), mSecondsPerStep, self._fieldSize, self.getAnimationLength(obj.getType(), obj.getAnimation()), obj.getAnimation());
+                        stepWidth = 3;
+                        //console.log(parseInt(stepWidth), mSecondsPerStep, self._fieldSize, self.getAnimationLength(obj.getType(), obj.getAnimation()), obj.getAnimation());
                         obj._sprite.setX(obj._sprite.getX() + parseInt(stepWidth) * xSign);
+                        obj.clearMilliseconds();
+                        obj.incIteration();
+                        if(obj.isTurnEnd()){
+                            obj.clearIteration();
+                            obj.getNextTurn();
+                        }
                     }
-
                 }
 
             });
@@ -230,15 +236,14 @@ game.prototype.tryAction =  function(action)
     if(game.prototype.hasOwnProperty(methodName)){
         return this[methodName].call(self, self);
     }
-    this._gnomek.setCurrentAction('stay');
-    //console.log('action not matched');
+    //this._gnomek.setCurrentAction('stay');
     return false;
 }
 
 game.prototype.tryAct_moveLeft = function(caller)
 {
     //console.log(caller);
-    var canMove = caller.canMove(caller._gnomek.getCoordX() - 1, caller._gnomek.getCoordY());
+    var canMove = caller.canMove(caller._gnomek.getCoordX() - 1, caller._gnomek.getCoordY(), caller._gnomek);
     if(canMove == false){
         caller.tryAction('stay');
         return false;
@@ -250,14 +255,12 @@ game.prototype.tryAct_moveLeft = function(caller)
 
 game.prototype.tryAct_moveRight = function(caller)
 {
-    var canMove = caller.canMove(caller._gnomek.getCoordX() + 1, caller._gnomek.getCoordY());
+    var canMove = caller.canMove(caller._gnomek.getCoordX() + 1, caller._gnomek.getCoordY(), caller._gnomek);
     if(canMove == false){
         return false;
     }
 
     var prevAction = caller._gnomek.getCurrentAction();
-    //caller._gnomek.setCurrentAction('move');
-    //caller._gnomek.setCurrentPosition('right');
     caller._gnomek.setTurn('move', 'right');
     caller.sendDo('moveRight');
     return true;
@@ -265,7 +268,7 @@ game.prototype.tryAct_moveRight = function(caller)
 
 game.prototype.tryAct_moveTop = function(caller)
 {
-    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() - 1);
+    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() - 1, caller._gnomek);
     if(canMove == false){
         return false;
     }
@@ -276,7 +279,7 @@ game.prototype.tryAct_moveTop = function(caller)
 
 game.prototype.tryAct_moveDown = function(caller)
 {
-    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() + 1);
+    var canMove = caller.canMove(caller._gnomek.getCoordX(), caller._gnomek.getCoordY() + 1, caller._gnomek);
     if(canMove == false){
         return false;
     }
@@ -296,11 +299,11 @@ game.prototype.sendDo = function(action)
     });
 }
 
-game.prototype.canMove = function(x, y)
+game.prototype.canMove = function(x, y, obj)
 {
     if(x < 0 || y < 0) return false;
     if(x - 1 > this._maxX || y - 1 > this._maxY) return false;
-
+    if(obj.hasOwnProperty('getCurrentAction') && obj.getCurrentAction() == 'move') return false;
     //checking walls or other players
     var notIsWall = true;
     $.each(this._sprites[x][y].items, function(j, obj){
