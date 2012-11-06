@@ -21,6 +21,16 @@ class ResourcesController extends Controller
 
 	private function _getTerrainData()
 	{
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT m.itemAnimation as animation, i.collisionType FROM GameCoreBundle:mapItems m JOIN m.itemTypes i WHERE i.name != :name'
+        )->setParameter('name', 'gnomek');
+
+        $terrains = $query->getArrayResult();
+        echo "<pre>";
+        var_dump($terrains);
+        exit;
+
 		$terrains   = array();
         $terrains[] = array(
             'x'                 => 9,

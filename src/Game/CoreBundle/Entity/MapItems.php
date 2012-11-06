@@ -36,6 +36,13 @@ class MapItems
     private $itemType;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ItemTypes")
+     * @ORM\JoinColumn(name="itemType", referencedColumnName="id")
+     */
+
+    public $itemTypes;
+
+    /**
      * @var string $itemAnimation
      *
      * @ORM\Column(name="itemAnimation", type="string", length=50, nullable=false)
