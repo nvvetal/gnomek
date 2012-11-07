@@ -29,6 +29,14 @@ class MapItems
     private $mapId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Map")
+     * @ORM\JoinColumn(name="mapId", referencedColumnName="id")
+     */
+
+    public $map;
+
+
+    /**
      * @var integer $itemType
      *
      * @ORM\Column(name="itemType", type="smallint", nullable=false)

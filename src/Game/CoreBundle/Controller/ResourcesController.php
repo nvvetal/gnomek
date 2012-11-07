@@ -23,43 +23,15 @@ class ResourcesController extends Controller
 	{
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-            'SELECT m.itemAnimation as animation, i.collisionType FROM GameCoreBundle:mapItems m JOIN m.itemTypes i WHERE i.name != :name'
+            "SELECT m.itemAnimation as animation, i.collisionType, map.x, map.y, '2' as frameRate
+            FROM GameCoreBundle:MapItems m
+            JOIN m.itemTypes i
+            JOIN m.map map
+            WHERE i.name != :name"
         )->setParameter('name', 'gnomek');
 
         $terrains = $query->getArrayResult();
-        echo "<pre>";
-        var_dump($terrains);
-        exit;
 
-		$terrains   = array();
-        $terrains[] = array(
-            'x'                 => 9,
-            'y'                 => 2,
-            'animation'         => 'wall',
-            'collisionType'     => 'wall',
-            'frameRate'         => 2,
-        );
-		$terrains[] = array(
-			'x'                 => 10,
-			'y'                 => 2,
-			'animation'         => 'tunnelUp',
-            'collisionType'     => 'none',
-			'frameRate'         => 2,
-		);
-		$terrains[] = array(
-			'x'                 => 11,
-			'y'                 => 2,
-            'animation'         => 'tunnel',
-            'collisionType'     => 'none',
-            'frameRate'         => 2,
-		);
-        $terrains[] = array(
-            'x'                 => 12,
-            'y'                 => 2,
-            'animation'         => 'wall',
-            'collisionType'     => 'wall',
-            'frameRate'         => 2,
-        );
 		$animations = array(
 			'ground' => array(
 				array(
@@ -160,17 +132,19 @@ class ResourcesController extends Controller
             'moveLeft'          => $moveLeft,
         );
 
-        $gnomek = array(
-            'x'                 => 10,
-            'y'                 => 2,
-            'animation'         => 'stay',
-            'frameRate'         => 2,
-            'currentAction'     => 'stay',
-            'currentPosition'   => 'none',
-        );
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            "SELECT m.itemAnimation as animation, m.itemAction as currentAction, m.itemPosition as currentPosition, map.x, map.y, '2' as frameRate
+            FROM GameCoreBundle:MapItems m
+            JOIN m.itemTypes i
+            JOIN m.map map
+            WHERE i.name = :name"
+        )->setParameter('name', 'gnomek');
+
+        $gnomek = $query->getArrayResult();
 
         $data = array(
-            'gnomek'        => $gnomek,
+            'gnomek'        => $gnomek[0],
             'animations'    => $animations,
             'res'           => 'bundles/gamecore/img/gnomek.png',
         );
