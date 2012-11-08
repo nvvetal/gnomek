@@ -87,12 +87,33 @@ INSERT INTO `map_items` (`id`, `mapId`, `itemType`, `itemAnimation`, `itemAction
 (4, 4, 1, 'wall', '', ''),
 (5, 2, 4, 'stay', 'none', 'none');
 
+
 CREATE TABLE IF NOT EXISTS `animations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `type` varchar(20) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
+  `position` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `name` (`name`,`type`,`position`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Дамп данных таблицы `animations`
+--
+
+INSERT INTO `animations` (`id`, `name`, `type`, `x`, `y`, `position`) VALUES
+(1, 'ground', 'terrain', 0, 0, 1),
+(2, 'tunnel', 'terrain', 0, 32, 1),
+(3, 'tunnelUp', 'terrain', 32, 32, 1),
+(4, 'wall', 'terrain', 32, 0, 1),
+(5, 'mineRight', 'gnomek', 64, 32, 1),
+(6, 'mineRight', 'gnomek', 96, 32, 2),
+(7, 'mineLeft', 'gnomek', 64, 32, 1),
+(8, 'mineLeft', 'gnomek', 96, 32, 2),
+(9, 'moveRight', 'gnomek', 0, 32, 1),
+(10, 'moveRight', 'gnomek', 32, 32, 2),
+(11, 'moveLeft', 'gnomek', 0, 64, 1),
+(12, 'moveLeft', 'gnomek', 32, 64, 2),
+(13, 'stay', 'gnomek', 0, 0, 1);
