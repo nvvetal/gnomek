@@ -86,3 +86,13 @@ INSERT INTO `map_items` (`id`, `mapId`, `itemType`, `itemAnimation`, `itemAction
 (3, 3, 2, 'tunnel', '', ''),
 (4, 4, 1, 'wall', '', ''),
 (5, 2, 4, 'stay', 'none', 'none');
+
+CREATE TABLE IF NOT EXISTS `animations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
