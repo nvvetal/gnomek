@@ -10,6 +10,18 @@ _do:
     pattern:  /action/{action}
     defaults: { _controller: GameCoreBundle:Do:index, action: ''}
 
+_admin:
+    pattern:  /admin/
+    defaults: { _controller: GameCoreBundle:Admin:index}
+
+login:
+    pattern:   /login
+    defaults:  { _controller: GameCoreBundle:Security:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
+
 
 #_demo_secured:
 #    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
@@ -31,6 +43,8 @@ _profiler:
 _configurator:
     resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
+
+
 
 
 _main:
