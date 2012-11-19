@@ -117,3 +117,21 @@ INSERT INTO `animations` (`id`, `name`, `type`, `x`, `y`, `position`) VALUES
 (11, 'moveLeft', 'gnomek', 0, 64, 1),
 (12, 'moveLeft', 'gnomek', 32, 64, 2),
 (13, 'stay', 'gnomek', 0, 0, 1);
+
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) NOT NULL,
+  `salt` varchar(32) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `email` varchar(320) NOT NULL,
+  `is_active` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `salt`, `password`, `email`, `is_active`) VALUES
+(1, 'test', '', 'test2', 'ololo@gmail.com', 1);
