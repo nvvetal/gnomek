@@ -187,9 +187,7 @@ game.prototype._animateSprites = function(frame)
                     obj.incMilliseconds(frame.timeDiff);
                     if(obj.getMilliseconds() > mSecondsPerStep)
                     {
-                        var stepWidth       = self._fieldSize / self.getAnimationLength(obj.getType(), obj.getAnimation());
-                        stepWidth = 3;
-                        //console.log(parseInt(stepWidth), mSecondsPerStep, self._fieldSize, self.getAnimationLength(obj.getType(), obj.getAnimation()), obj.getAnimation());
+                        var stepWidth       = parseInt(self._fieldSize / (1000 / mSecondsPerStep));
                         obj._sprite.setX(obj._sprite.getX() + parseInt(stepWidth) * xSign);
                         obj.clearMilliseconds();
                         obj.incIteration();

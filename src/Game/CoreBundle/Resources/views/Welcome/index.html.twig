@@ -15,22 +15,24 @@
 	    var gameCore = new game();
 	    gameCore.init('game', 1024, 800, links, gameCore);
 	    $(window).keypress(function(event) {
+		    var key = event.charCode;
+		    //console.log(event);
 		    //a or A - left
-		    if(event.keyCode == 97 || event.keyCode == 65){
+		    if(key == 97 || key == 65){
 			    gameCore.tryAction('moveLeft');
 		    }
-		    if(event.keyCode == 100 || event.keyCode == 68){
+		    if(key == 100 || key == 68){
 			    gameCore.tryAction('moveRight');
 		    }
 
-		    if(event.keyCode == 119 || event.keyCode == 87){
+		    if(key == 119 || key == 87){
 			    gameCore.tryAction('moveTop');
 		    }
-		    if(event.keyCode == 115 || event.keyCode == 83){
+		    if(key == 115 || key == 83){
 			    gameCore.tryAction('moveDown');
 		    }
 
-			console.log(event.keyCode);
+			//console.log(event);
 	    });
     };
     </script>
