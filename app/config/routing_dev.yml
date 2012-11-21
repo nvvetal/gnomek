@@ -14,6 +14,10 @@ _admin:
     pattern:  /admin/
     defaults: { _controller: GameCoreBundle:Admin:index}
 
+_mapEditor:
+    pattern: /map/
+    defaults: { _controller: GameCoreBundle:MapEditor:index}
+
 login:
     pattern:   /login
     defaults:  { _controller: GameCoreBundle:Security:login }
