@@ -5,6 +5,7 @@ jms_security_extra:
 security:
     encoders:
         Game\CoreBundle\Entity\User: plaintext
+        HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser: plaintext
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -18,13 +19,16 @@ security:
         secured_area:
             pattern:    ^/
             anonymous: ~
-            form_login:
-                login_path:  /login
-                check_path:  /login_check
-            logout:
-                path:   /logout
-                target: /
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                login_path:        /login
+                failure_path:      /login
+
+                oauth_user_provider:
+                    oauth: ~
 
     access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/map, roles: ROLE_USER }

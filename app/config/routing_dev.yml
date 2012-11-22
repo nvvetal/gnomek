@@ -1,40 +1,4 @@
-_welcome:
-    pattern:  /
-    defaults: { _controller: GameCoreBundle:Welcome:index }
 
-_initResources:
-    pattern:  /resources/
-    defaults: { _controller: GameCoreBundle:Resources:init }
-
-_do:
-    pattern:  /action/{action}
-    defaults: { _controller: GameCoreBundle:Do:index, action: ''}
-
-_admin:
-    pattern:  /admin/
-    defaults: { _controller: GameCoreBundle:Admin:index}
-
-_mapEditor:
-    pattern: /map/
-    defaults: { _controller: GameCoreBundle:MapEditor:index}
-
-login:
-    pattern:   /login
-    defaults:  { _controller: GameCoreBundle:Security:login }
-login_check:
-    pattern:   /login_check
-logout:
-    pattern:   /logout
-
-
-#_demo_secured:
-#    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
-#    type:     annotation
-
-#_demo:
-#    resource: "@AcmeDemoBundle/Controller/DemoController.php"
-#    type:     annotation
-#    prefix:   /demo
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
