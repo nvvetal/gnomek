@@ -1,0 +1,3 @@
+services:
+  memory_oauth_user_provider:
+    class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
