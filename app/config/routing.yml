@@ -23,13 +23,13 @@ _mapEditor:
     pattern: /map/
     defaults: { _controller: GameCoreBundle:MapEditor:index}
 
-#login:
-#    pattern:   /login
-#    defaults:  { _controller: GameCoreBundle:Security:login }
-#login_check:
-#    pattern:   /login_check
-#logout:
-#    pattern:   /logout
+login:
+    pattern:   /login
+    defaults:  { _controller: GameCoreBundle:Security:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"

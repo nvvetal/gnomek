@@ -1,3 +1,10 @@
 services:
   memory_oauth_user_provider:
-    class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+    #class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+    class: Game\CoreBundle\Auth\GameUserProvider
+
+  game_core_security.auth.handler.login_success_handler:
+        class: Game\CoreBundle\Auth\Handler\LoginAuthHandler
+        arguments:  [@router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
