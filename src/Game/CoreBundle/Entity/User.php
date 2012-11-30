@@ -25,6 +25,11 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=32, unique=true)
+     */
+    private $facebookId;
+
+    /**
      * @ORM\Column(type="string", length=32)
      */
     private $salt;
@@ -56,6 +61,22 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
     }
 
     /**
