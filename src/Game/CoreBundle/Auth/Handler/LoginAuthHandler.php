@@ -9,11 +9,15 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManager;
+
 
 class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
 {
     protected $router;
     protected $security;
+    protected $doctrine;
 
     /**
      * This is called when an interactive authentication attempt fails. This is
@@ -42,14 +46,22 @@ class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, Authent
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        echo "<pre>";
-        var_dump($token);
-        exit;
+        if($token->getResourceOwnerName() == 'facebook')
+        {
+            $facebookId = $token->getUserName();
+            $user = $this->doctrine->getRepository('GameCoreBundle:User')->findOneByFacebookId($facebookId);
+            if(is_null($user)){
+                $request->getSession()->set('needRegister', true);
+            }
+        }
+        $url = $this->router->generate('_welcome');
+        return new RedirectResponse($url);
     }
 
-    function __construct(Router $router, SecurityContext $security)
+    function __construct(Router $router, SecurityContext $security, EntityManager $doctrine)
     {
         $this->router = $router;
         $this->security = $security;
+        $this->doctrine = $doctrine;
     }
 }

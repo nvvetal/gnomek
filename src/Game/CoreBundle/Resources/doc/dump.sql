@@ -136,4 +136,5 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `salt`, `password`, `email`, `is_active`) VALUES
 (1, 'test', '', 'test2', 'ololo@gmail.com', 1);
 
-ALTER TABLE  `users` ADD  `facebook_id` VARCHAR( 32 ) NOT NULL AFTER  `username`
+ALTER TABLE  `users` ADD  `facebook_id` VARCHAR( 32 ) NOT NULL AFTER  `username`;
+ALTER TABLE  `users` CHANGE  `facebook_id`  `facebookId` VARCHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

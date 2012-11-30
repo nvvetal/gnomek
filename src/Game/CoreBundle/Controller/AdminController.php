@@ -14,7 +14,7 @@ class AdminController extends Controller
         $data = array(
             'test' => 1,
         );
-        $this->redirect();
+        //$this->redirect();
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
 }
