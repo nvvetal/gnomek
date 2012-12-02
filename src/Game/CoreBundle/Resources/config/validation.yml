@@ -1,0 +1,15 @@
+Game\CoreBundle\Entity\User:
+    properties:
+        username:
+            - NotBlank: ~
+            - Length:
+              min: 5
+              max: 25
+              minMessage: Login must be at least {{ limit }} characters
+              maxMessage: Login must be max {{ limit }} characters
+        password:
+            - NotBlank: ~
+              min: 5
+              max: 40
+              minMessage: Login must be at least {{ limit }} characters
+              maxMessage: Login must be max {{ limit }} characters

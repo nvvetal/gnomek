@@ -4,7 +4,7 @@ jms_security_extra:
 
 security:
     encoders:
-        #Game\CoreBundle\Entity\User: plaintext
+        Game\CoreBundle\Entity\User: plaintext
         HWI\Bundle\OAuthBundle\Security\Core\User\User: plaintext
 
     role_hierarchy:
@@ -14,8 +14,8 @@ security:
     providers:
         oauth_user_provider:
           id: memory_oauth_user_provider
-        #main:
-        #    entity: { class: Game\CoreBundle\Entity\User, property: username }
+        main:
+          entity: { class: Game\CoreBundle\Entity\User, property: username }
 
     firewalls:
         secured_area:

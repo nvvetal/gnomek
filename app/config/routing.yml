@@ -26,6 +26,11 @@ _mapEditor:
 login:
     pattern:   /login
     defaults:  { _controller: GameCoreBundle:Security:login }
+
+register:
+    pattern:   /register
+    defaults:  { _controller: GameCoreBundle:Security:register }
+
 login_check:
     pattern:   /login_check
 logout:

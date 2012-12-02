@@ -1,11 +1,15 @@
 {% extends 'GameCoreBundle:Security:layout.html.twig' %}
 {%  block title %}Admin Login{% endblock %}
 {% block content %}
-	{% if error %}
-		<div class="alert alert-error">{{ error.message }}</div>
-	{% endif %}
+    {% if errors %}
+        <div class="alert alert-error">
+            {% for error in errors %}
+                <div>{{ error.message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-	<form class="form-horizontal" action="{{ path('login_check') }}" method="post">
+	<form class="form-horizontal" action="{{ path('login_check') }}" method="post" id="login_form">
 		<div class="control-group">
 			<label class="control-label" for="username">Username</label>
 			<div class="controls">
@@ -20,7 +24,8 @@
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-success">Sign in</button>
+				<button type="button" class="btn btn-success" onclick="$('#login_form').submit()">Sign in</button>
+                <button type="button" class="btn btn-danger" onclick="$('#login_form').attr('action', '{{ path('register') }}').submit()">REGISTER</button>
 			</div>
 		</div>
 	</form>

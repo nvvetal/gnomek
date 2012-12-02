@@ -66,6 +66,14 @@ class User implements UserInterface
     /**
      * @inheritDoc
      */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getFacebookId()
     {
         return $this->facebookId;
@@ -93,6 +101,14 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /**
