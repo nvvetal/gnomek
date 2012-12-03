@@ -27,7 +27,8 @@ class AuthListener
         if (!is_array($controller)) {
             return;
         }
-
+        //var_dump(get_class($controller[0]));
+        //exit;
         if (!$controller[0] instanceof SecurityController) {
             $needRegister = $event->getRequest()->getSession()->get('needRegister');
             if($needRegister === true){

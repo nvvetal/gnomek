@@ -1,15 +1,18 @@
 Game\CoreBundle\Entity\User:
     properties:
         username:
-            - NotBlank: ~
+            - NotBlank:
+                message: Login must be not blank.
             - Length:
-              min: 5
-              max: 25
-              minMessage: Login must be at least {{ limit }} characters
-              maxMessage: Login must be max {{ limit }} characters
+                min: 5
+                max: 25
+                minMessage: Login must be at least 5 characters.
+                maxMessage: Login must be max 25 characters.
         password:
-            - NotBlank: ~
-              min: 5
-              max: 40
-              minMessage: Login must be at least {{ limit }} characters
-              maxMessage: Login must be max {{ limit }} characters
+            - NotBlank:
+                message: Password must be not blank.
+            - Length:
+                min: 5
+                max: 40
+                minMessage: Password must be at least 5 characters.
+                maxMessage: Password must be max 40 characters.

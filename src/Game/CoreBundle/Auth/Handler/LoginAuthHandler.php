@@ -46,13 +46,18 @@ class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, Authent
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        if($token->getResourceOwnerName() == 'facebook')
+        //TODO: setup facebookId
+        if(method_exists($token, 'getResourceOwnerName') && $token->getResourceOwnerName() == 'facebook')
         {
             $facebookId = $token->getUserName();
             $user = $this->doctrine->getRepository('GameCoreBundle:User')->findOneByFacebookId($facebookId);
             if(is_null($user)){
                 $request->getSession()->set('needRegister', true);
             }
+        }else{
+            $needRegister =  $request->getSession()->get('needRegister');
+
+            if($needRegister === true) $request->getSession()->set('needRegister', false);
         }
         $url = $this->router->generate('_welcome');
         return new RedirectResponse($url);

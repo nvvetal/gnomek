@@ -21,6 +21,12 @@ security:
         secured_area:
             pattern:    ^/
             anonymous: ~
+            form_login:
+                provider: main
+                login_path: /login
+                check_path: /login_check
+                success_handler: game_core_security.auth.handler.login_success_handler
+                #logout_path: /logout
             oauth:
                 resource_owners:
                     facebook:           "/login/check-facebook"

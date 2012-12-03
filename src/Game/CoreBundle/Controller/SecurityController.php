@@ -15,7 +15,7 @@ class SecurityController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-
+        $error = '';
 // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -23,11 +23,16 @@ class SecurityController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
+        //echo "<pre>";
+        //var_dump($session);
+        //exit;
+
+        //$session->set('needAuthenticate')
 
         return $this->render('GameCoreBundle:Security:login.html.twig', array(
 // last username entered by the user
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-            //'errors'        => array('message' => $error),
+            'error'         => $error,
         ));
     }
 
@@ -42,10 +47,14 @@ class SecurityController extends Controller
         $validator = $this->get('validator');
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
-            //var_dump($errors);exit;
+            $errorMessages = '';
+            foreach ($errors as $error)
+            {
+                $errorMessages .= $error->getMessage()."\n";
+            }
             return $this->render('GameCoreBundle:Security:login.html.twig', array(
                 'last_username' => $session->get($request->get('_username')),
-                'errors'         => $errors,
+                'error'         => $errorMessages,
             ));
         }
         $em = $this->getDoctrine()->getManager();

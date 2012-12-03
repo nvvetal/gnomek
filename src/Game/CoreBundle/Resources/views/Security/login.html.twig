@@ -1,12 +1,8 @@
 {% extends 'GameCoreBundle:Security:layout.html.twig' %}
 {%  block title %}Admin Login{% endblock %}
 {% block content %}
-    {% if errors %}
-        <div class="alert alert-error">
-            {% for error in errors %}
-                <div>{{ error.message }}</div>
-            {% endfor %}
-        </div>
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
     {% endif %}
 
 	<form class="form-horizontal" action="{{ path('login_check') }}" method="post" id="login_form">
