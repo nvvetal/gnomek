@@ -32,7 +32,7 @@ class AuthListener
         if (!$controller[0] instanceof SecurityController) {
             $needRegister = $event->getRequest()->getSession()->get('needRegister');
             if($needRegister === true){
-                $url = $this->router->generate('login');
+                $url = $this->router->generate('register');
                 $redirect = new RedirectResponse($url);
                 $redirect->send();
             }

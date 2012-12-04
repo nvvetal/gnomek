@@ -4,7 +4,7 @@ jms_security_extra:
 
 security:
     encoders:
-        Game\CoreBundle\Entity\User: plaintext
+        Game\CoreBundle\Entity\User: md5
         HWI\Bundle\OAuthBundle\Security\Core\User\User: plaintext
 
     role_hierarchy:

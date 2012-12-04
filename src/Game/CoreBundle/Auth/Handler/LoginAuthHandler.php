@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
 class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
@@ -54,6 +55,10 @@ class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, Authent
             if(!$user){
                 $request->getSession()->set('userAuthData', array('type'=>'facebook', 'id' => $facebookId));
                 $request->getSession()->set('needRegister', true);
+            }else{
+                //TODO: ROLE_USER
+                $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+                $this->security->setToken($token);
             }
         }else{
             $needRegister =  $request->getSession()->get('needRegister');

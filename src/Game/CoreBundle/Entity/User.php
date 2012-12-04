@@ -25,9 +25,9 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=32, unique=true)
+     * @ORM\Column(type="string", length=32)
      */
-    private $facebookId;
+    private $facebookId = '';
 
     /**
      * @ORM\Column(type="string", length=32)
@@ -42,7 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      */
-    private $email;
+    private $email = '';
 
     /**
      * @ORM\Column(name="is_active", type="boolean")

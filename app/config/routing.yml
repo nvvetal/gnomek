@@ -35,6 +35,9 @@ register:
     pattern:   /register
     defaults:  { _controller: GameCoreBundle:Security:register }
 
+registerCheck:
+    pattern:   /register_check
+    defaults:  { _controller: GameCoreBundle:Security:registerCheck }
 
 
 hwi_oauth_redirect:

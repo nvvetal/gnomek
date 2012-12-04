@@ -1,11 +1,17 @@
 {% extends 'GameCoreBundle:Security:layout.html.twig' %}
-{%  block title %}Admin Login{% endblock %}
+{%  block title %}Admin Register{% endblock %}
 {% block content %}
+	{% if oauthMessage %}
+		<div class="alert alert-success">
+		{{ oauthMessage }}
+		</div>
+	{% endif %}
+
     {% if error %}
         <div class="alert alert-error">{{ error }}</div>
     {% endif %}
 
-	<form class="form-horizontal" action="{{ path('login_check') }}" method="post" id="login_form">
+	<form class="form-horizontal" action="{{ path('registerCheck') }}" method="post" id="login_form">
 		<div class="control-group">
 			<label class="control-label" for="username">{% trans %}_login{% endtrans %}</label>
 			<div class="controls">
@@ -20,9 +26,8 @@
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-success">{% trans %}_sign_in{% endtrans %}</button>
-                <button type="button" class="btn btn-link" onclick="window.location.href='{{ path('register') }}'">{% trans %}_register_link{% endtrans %}</button>
-			</div>
+				<button type="submit" class="btn btn-success">{% trans %}_register{% endtrans %}</button>
+				<button type="button" class="btn btn-link" onclick="window.location.href='{{ path('login') }}'">{% trans %}_login_link{% endtrans %}</button>			</div>
 		</div>
 	</form>
 {% endblock %}
