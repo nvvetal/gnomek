@@ -56,7 +56,7 @@ class LoginAuthHandler implements AuthenticationSuccessHandlerInterface, Authent
                 $request->getSession()->set('userAuthData', array('type'=>'facebook', 'id' => $facebookId));
                 $request->getSession()->set('needRegister', true);
             }else{
-                //TODO: ROLE_USER
+
                 $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
                 $this->security->setToken($token);
             }

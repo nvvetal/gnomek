@@ -77,7 +77,7 @@ class SecurityController extends Controller
             }
             $request->getSession()->set('needRegister', false);
         }
-        //TODO: ROLE USER
+
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $this->get('security.context')->setToken($token);
 

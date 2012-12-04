@@ -32,7 +32,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $salt;
+    private $salt = '';
 
     /**
      * @ORM\Column(type="string", length=40)

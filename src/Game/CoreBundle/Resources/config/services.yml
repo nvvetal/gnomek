@@ -6,11 +6,12 @@ services:
   game_core_security.auth.handler.login_success_handler:
     class: Game\CoreBundle\Auth\Handler\LoginAuthHandler
     arguments:  [@router, @security.context, @doctrine.orm.entity_manager]
-    tags:
-      - { name: 'monolog.logger', channel: 'security' }
 
   game_core_security.event_listerner.auth_listerner:
       class: Game\CoreBundle\EventListener\AuthListener
       arguments:  [@router]
       tags:
         - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+  game_core_security.encoder:
+    class: Game\CoreBundle\Auth\PlainEncoder
