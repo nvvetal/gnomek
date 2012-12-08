@@ -5,3 +5,4 @@ _register: Register
 _login: Login
 _password: Password
 _sign_in: Sign in
+_facebook_login: Sign In with Facebook
